@@ -1,0 +1,8 @@
+"test": {
+    "username": "postgres",
+    "password": 12345,
+    "database": "postitTest",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port":5432
+  },
