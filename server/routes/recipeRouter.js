@@ -29,3 +29,21 @@ router.post('/', (req, res) => { // -----------------------------create recipe!
     }))
     .catch(error => res.status(400).send(error.toString()));
 });
+
+router.get('/:id/fav', (req, res) => { // ------------------checked
+  User.findById(req.params.id, {
+    include: [{
+      model: Favorite,
+      as: 'favorites',
+    }],
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'user Not Found',
+        });
+      }
+      return res.status(200).send(user);
+    })
+    .catch(error => res.status(400).send(error.toString()));
+});
