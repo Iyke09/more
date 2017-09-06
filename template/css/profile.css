@@ -1,0 +1,44 @@
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 300px;
+  position: relative;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+  background-color: rgba(0,0,0,0.6);
+}
+#container{
+  padding-top: 25px;
+  padding-bottom: 45px;
+}
+@media screen and (min-width: 769px) {
+  #cardz{
+    position: absolute;
+    top: 245px; 
+    left: 85px;
+    max-width: 300px;
+  }
+  #img{
+    height: 300px;
+  }
+  #container{
+    padding: 65px 25px;
+  }
+}
+#rule{
+  margin:auto;
+  max-width: 100%;
+  color: red
+}
