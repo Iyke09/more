@@ -176,7 +176,6 @@ describe('API Integration Tests', () => {
     
   });
 
-
   describe('Add Recipe', () => {
     beforeEach(() => {
       data = {
@@ -279,6 +278,29 @@ describe('API Integration Tests', () => {
         });
     });
   });
+
+  describe('Update Recipes', () => {
+    it('return 401 if user not logged in', (done) => {
+      request.put(`${recipesUrl}/${recipeId}`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Unauthorization error');
+          done();
+        });
+    });
+
+    it('return 404 if recipe is not found', (done) => {
+      request.put(`${recipesUrl}/15`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('recipe Not Found');
+          done();
+        });
+    });
+  });
+
 
 
   
