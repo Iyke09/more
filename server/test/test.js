@@ -21,7 +21,3 @@ const invalidToken = jwt.sign({ userID: 15 }, 'jsninja', { expiresIn: '3 days' }
 let recipeId;
 
 describe('API Integration Tests', () => {
-
-
-});
-
