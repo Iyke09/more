@@ -236,6 +236,51 @@ describe('API Integration Tests', () => {
         });
     });
   });
+
+  describe('Add favorite Recipe', () => {
+    it('return 201 if successfully added to favorites', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/fav`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('successfully added to favorites');
+          done();
+        });
+    });
+
+    it('return 201 if another user tries to favorite', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/fav`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('successfully added to favorites');
+          done();
+        });
+    });
+
+    it('return 201 if successfully removed from favorites', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/fav`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.message).to.equal('successfully removed from favorites');
+          done();
+        });
+    });
+
+
+    it('return 404 if recipe not found!!', (done) => {
+      request.post(`${recipesUrl}/12/fav`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('recipe not found!');
+          done();
+        });
+    });
+  });
+
+
   
 });
 
