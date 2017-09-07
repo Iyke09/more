@@ -1,1 +1,2 @@
 [![Build Status](https://travis-ci.org/Iyke09/more.svg?branch=dev)](https://travis-ci.org/Iyke09/more)
+[![Coverage Status](https://coveralls.io/repos/github/Iyke09/more/badge.svg?branch=dev)](https://coveralls.io/github/Iyke09/more?branch=dev)
