@@ -30,26 +30,73 @@ router.post('/', (req, res) => { // -----------------------------create recipe!
     .catch(error => res.status(400).send(error.toString()));
 });
 
-router.get('/:id/fav', (req, res) => { // ------------------checked
-  User.findById(req.params.id, {
-    include: [{
-      model: Favorite,
-      as: 'favorites',
-    }],
-  })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({
-          message: 'user Not Found',
+router.post('/:id/fav', (req, res) => { // -------------------------add recipe to fav and update recipe!
+  const decoded = jwt.decode(req.query.token || req.body.token);
+  if (!decoded) {
+    return res.status(401).send({
+      message: 'you have to be logged in to create recipe',
+    });
+  }
+  Recipe.findById(req.params.id)
+    .then((recipe) => {
+      if (!recipe) {
+        res.status(404).send({
+          message: 'recipe not found!',
         });
+      } else {
+        Favorite.findOne({
+          where: {
+            recipeId: req.params.id,
+            userId: decoded.user.id,
+          },
+        })
+          .then((success) => {
+            if (!success) {
+              Favorite.create({
+                recipeId: req.params.id,
+                userId: decoded.user.id,
+              })
+                .then(() => {
+                  Recipe.findById(req.params.id)
+                    .then((recipe) => {
+                      recipe.update({
+                        favUser: recipe.favUser.concat(decoded.user.email),
+                      })
+                        .then(() => res.status(201).send({
+                          message: 'successfully added to favorites',
+                        }))
+                        .catch(error => res.status(500).send(error.toString()));
+                    })
+                    .catch(error => res.status(500).send(error.toString()));
+                })
+                .catch(error => res.status(500).send(error.toString()));
+            } else {
+              success.destroy()
+                .then(() => {
+                  Recipe.findById(req.params.id)
+                    .then((recipe) => {
+                      recipe.update({
+                        favUser: recipe.favUser.splice(recipe.favUser.indexOf(decoded.user.email), 1),
+                      })
+                        .then(() => res.status(200).json({
+                          message: 'successfully removed from favorites',
+                        }))
+                        .catch(error => res.status(500).send(error.toString()));
+                    })
+                    .catch(error => res.status(500).send(error.toString()));
+                })
+                .catch(error => res.status(500).send(error.toString()));
+            }
+          })
+          .catch(error => res.status(500).send(error.toString()));
       }
-      return res.status(200).send(user);
     })
-    .catch(error => res.status(400).send(error.toString()));
-});
+    .catch(error => res.status(500).send(error));
+},
+);
 
 router.put('/:id', (req, res) => { // ---------- send email if user's fav recipe gets updated
-  const decoded = jwt.decode(req.body.token);
+  const decoded = jwt.decode(req.body.token || req.body.query);
   Recipe.findById(req.params.id)
     .then((recipe) => {
       if (!recipe) {
@@ -351,5 +398,41 @@ router.get('/:id/downvote', (req, res) => { // ------------------upvotes#####
     .catch(error => res.status(400).send(error.toString()));
 });
 
+router.post('/:id/reply', (req, res) => { // ---------------------review reply
+  const decoded = jwt.decode(req.query.token || req.body.token);
+  if (!decoded) {
+    return res.status(401).send({
+      message: 'you have to be logged in',
+    });
+  }
+  Comment.findById(req.params.id)
+    .then((comment) => {
+      if (!comment) {
+        return res.status(404).send({
+          message: 'not found',
+        });
+      }
+      Comment.create({
+        recipeId: req.params.id,
+        content: req.body.content,
+        email: decoded.user.email,
+        occupation: req.body.occupation,
+      })
+        .then((review) => {
+          Comment.findById(req.params.id)
+            .then((comment) => {
+              comment.update({
+                reply: comment.reply.concat([review]),
+              });
+              res.status(200).send({
+                message: 'reply sent',
+              });
+            })
+            .catch(error => res.status(400).send(error.toString()));
+        })
+        .catch(error => res.status(400).send(error));
+    })
+    .catch(error => res.status(400).send(error));
+});
 
 module.exports = router;

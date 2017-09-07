@@ -12,17 +12,17 @@ router.get('/', (req, res) => res.status(200).send({
 
 router.post('/signup', (req, res) => { // --------------------------checked
   if (!req.body.password && !req.body.email) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'both fields are required',
     });
   }
   if (!req.body.email) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'email is required',
     });
   }
   if (!req.body.password) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'password is required',
     });
   }
@@ -39,17 +39,20 @@ router.post('/signup', (req, res) => { // --------------------------checked
             status: 'success',
             message: 'account created',
           }))
-          .catch(error => res.status(500).send(error));
+          .catch(error => res.status(500).send(error.message));
       } else {
         res.status(400).json({
           message: 'email already exists',
         });
       }
     })
-    .catch(error => res.status(500).send(error));
+    .catch(error => {
+    	console.log(error)
+    	res.status(500).send(error);
+    }) 
 });
 
-router.post('/signin/', (req, res) => { // ----------------------------checked
+router.post('/signin', (req, res) => { // ----------------------------checked
   if (!req.body.email) {
     return res.status(400).json({
       message: 'email field is required',
