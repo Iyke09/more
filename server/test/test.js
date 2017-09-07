@@ -415,6 +415,47 @@ describe('API Integration Tests', () => {
     });
   });
 
+  describe('Downvote Recipes', () => {
+    it('return 401 if user not owner of recipe', (done) => {
+      request.get(`${recipesUrl}/${recipeId}/upvote`)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('you have to be logged in');
+          done();
+        });
+    });
+
+    it('return 404 if recipe is not found', (done) => {
+      request.get(`${recipesUrl}/15/downvote`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('not Found');
+          done();
+        });
+    });
+
+    it('return 201 if recipe downvoted', (done) => {
+      request.get(`${recipesUrl}/1/downvote`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('recipe downvoted');
+          done();
+        });
+    });
+
+    it('return 201 when recipe downvote is removed', (done) => {
+      request.get(`${recipesUrl}/1/downvote`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          console.log(res.body);
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('downvote removed');
+          done();
+        });
+    });
+  });
 
 
   
