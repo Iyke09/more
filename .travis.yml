@@ -3,7 +3,7 @@ language: node_js
 node_js: "7"
 
 install:
-- npm install
+-  npm install
 
 script:
 - npm test
@@ -20,9 +20,9 @@ services:
 
 
 before_script:
-- createuser postit -s -U postgres
-- createdb postit_test --username=postit
+- createuser more-recipe -s -U postgres
+- createdb test --username=postgres
 - sequelize db:migrate
 
 notifications:
-  webhooks: https://coveralls.io/webhook repo_token=cq7oj7Dgn0xi31dzGY1GpqenGmkC2Y8Ud
+  webhooks: https://coveralls.io/webhook repo_token=Fdrh3aLsYA3PJOZhsgKJNCeZh3r0rJ4Ud
