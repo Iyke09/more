@@ -301,6 +301,38 @@ describe('API Integration Tests', () => {
     });
   });
 
+  describe('Delete Recipes', () => {
+    it('return 401 if user not owner of recipe', (done) => {
+      request.delete(`${recipesUrl}/${recipeId}`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('Not Authorized');
+          done();
+        });
+    });
+
+    it('return 404 if recipe is not found', (done) => {
+      request.delete(`${recipesUrl}/15`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('recipe Not Found');
+          done();
+        });
+    });
+
+    it('return 404 if recipe deleted', (done) => {
+      request.delete(`${recipesUrl}/${recipeId}`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.message).to.equal('recipe deleted');
+          done();
+        });
+    });
+  });
+
 
 
   
