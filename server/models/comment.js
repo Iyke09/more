@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     Comment.belongsTo(models.Recipe, {
       foreignKey: 'recipeId',
       as: 'comments',
-    }),
+    })
   };
 
   return Comment;
