@@ -3,7 +3,7 @@ language: node_js
 node_js: "7"
 
 install:
--  npm install
+- npm install
 
 script:
 - npm test
@@ -16,7 +16,7 @@ cache:
   - "node_modules"
 
 services:
--  postgresql
+- postgresql
 
 
 before_script:
