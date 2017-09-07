@@ -1,5 +1,6 @@
 {
   "root": true,
+  "esversion": 6,
   "extends": "airbnb-base",
   "env": {
     "node": true,
