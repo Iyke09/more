@@ -373,6 +373,48 @@ describe('API Integration Tests', () => {
     });
   });
 
+  describe('Upvote Recipes', () => {
+    it('return 401 if user not owner of recipe', (done) => {
+      request.get(`${recipesUrl}/${recipeId}/upvote`)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('you have to be logged in');
+          done();
+        });
+    });
+
+    it('return 404 if recipe is not found', (done) => {
+      request.get(`${recipesUrl}/15/upvote`)
+        .send({ token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('not Found');
+          done();
+        });
+    });
+
+    it('return 201 if recipe upvoted', (done) => {
+      request.get(`${recipesUrl}/1/upvote`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('recipe upvoted');
+          done();
+        });
+    });
+
+    it('return 201 when recipe upvote is removed', (done) => {
+      request.get(`${recipesUrl}/1/upvote`)
+        .send({ token: userToken2 })
+        .end((err, res) => {
+          console.log(res.body);
+          expect(res.status).to.equal(201);
+          expect(res.body.message).to.equal('upvote removed');
+          done();
+        });
+    });
+  });
+
 
 
   
