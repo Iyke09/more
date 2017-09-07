@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Category.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'users',
-    });
+    })
   };
   return Category;
 };
