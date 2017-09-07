@@ -16,12 +16,12 @@ cache:
   - "node_modules"
 
 services:
-- postgresql
+-  postgresql
 
 
 before_script:
-- createuser more-recipe -s -U postgres
-- createdb test --username=postgres
+- createuser more_recipe -s -U postgres
+- createdb moreRecipeTest --username=postgres
 - sequelize db:migrate
 
 notifications:
