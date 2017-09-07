@@ -24,5 +24,7 @@ before_script:
 - createdb moreRecipeTest --username=postgres
 - sequelize db:migrate
 
+after_success: npm run coverage
+
 notifications:
   webhooks: https://coveralls.io/webhook repo_token=Fdrh3aLsYA3PJOZhsgKJNCeZh3r0rJ4Ud
