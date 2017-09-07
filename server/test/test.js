@@ -333,6 +333,46 @@ describe('API Integration Tests', () => {
     });
   });
 
+  describe('Send Review', () => {
+    it('return 401 if user not logged in', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/review`)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('you have to be logged in');
+          done();
+        });
+    });
+
+    it('return 401 content not filled', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/review`)
+        .send({ title: 'hello', occupation: 'med', token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('please fill in the required fields');
+          done();
+        });
+    });
+    it('return 200 if review successful', (done) => {
+      request.post(`${recipesUrl}/${recipeId}/review`)
+        .send({ title: 'hello', content: 'awesome dish', occupation: 'med', token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.message).to.equal('review sent!');
+          done();
+        });
+    });
+
+    it('return 404 if recipe is not found', (done) => {
+      request.post(`${recipesUrl}/16/review`)
+        .send({ title: 'hello', content: 'awesome dish', occupation: 'med', token: userToken1 })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('recipe not found');
+          done();
+        });
+    });
+  });
+
 
 
   
