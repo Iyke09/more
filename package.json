@@ -8,7 +8,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha server/test/test.js ",
     "test:db": "set NODE_ENV=test&&sequelize db:migrate:undo:all&&sequelize db:migrate && cross-env NODE_ENV=test nyc mocha server/test/test.js",
     "s:test": "set NODE_ENV=test-l&& mocha --compilers js:babel-core/register --timeout 10000 server/test/test.js",
-    "heroku-postbuild":"sequelize db:migrate",
+    "heroku-postbuild": "sequelize db:migrate",
     "migrate": "sequelize db:migrate:undo:all&&sequelize db:migrate",
     "start": "babel-node server/bin/www",
     "start:dev": "nodemon --exec babel-node server/bin/www",
@@ -54,6 +54,7 @@
     "validate.js": "^0.11.1"
   },
   "devDependencies": {
+    "bcryptjs": "^2.4.3",
     "chai": "^4.1.1",
     "coveralls": "^2.13.1",
     "cross-env": "^5.0.5",
