@@ -1,6 +1,7 @@
+
 import signup from './signup';
 import signin from './signin';
-import userFavorite from './userfavorite';
+import userFavorite from './userFavorite';
 
 const userController = {
   signin,
