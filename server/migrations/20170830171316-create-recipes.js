@@ -12,6 +12,9 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    image: {
+      type: Sequelize.STRING
+    },
     description: {
       type: Sequelize.STRING,
       allowNull: true,
@@ -22,6 +25,12 @@ module.exports = {
     favUser: {
       type: Sequelize.ARRAY(Sequelize.STRING),
       defaultValue: ['iykay33@gmail.com'],
+    },
+    instructions: {
+      type: Sequelize.ARRAY(Sequelize.STRING)
+    },
+    ingredients: {
+      type: Sequelize.ARRAY(Sequelize.STRING)
     },
     userId: {
       type: Sequelize.INTEGER,
@@ -35,12 +44,15 @@ module.exports = {
     },
     upvote: {
       type: Sequelize.INTEGER,
+      defaultValue: 0
     },
     downvote: {
       type: Sequelize.INTEGER,
+      defaultValue: 0
     },
     views: {
       type: Sequelize.INTEGER,
+      defaultValue: 0
     },
     createdAt: {
       allowNull: false,

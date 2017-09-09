@@ -1,31 +1,27 @@
-import { User } from '../../models';
 import bcrypt from 'bcryptjs';
+import { User } from '../../models';
 
-const signup = (req, res) => {
-  if (!req.body.password) {
-    return res.status(400).json({
-      message: 'password field is required',
-    });
-  }
-  if (req.body.password) {
-    if (req.body.password.length < 4 || req.body.password.length > 30) {
-      return res.status(400).json({
-        message: 'password must be atleast 6 characters and less than 30',
-      });
-    }
-  }
-  if (req.body.username) {
-    if (req.body.username.length < 4) {
-      return res.status(400).json({
-        message: 'username must be atleast 4 characters',
-      });
-    }
-  }
-  // if (req.body.password.indexOf(/\n/)) {
+const signup = (req, res) => { // --------------------------checked
+  // if (!req.body.email) {
   //   return res.status(400).json({
-  //     message: 'password must be atleast 6 characters and without space',
+  //     message: 'email is required',
   //   });
   // }
+  if (req.body.password) {
+    if (req.body.password.length < 6) {
+      return res.status(400).json({
+        message: 'password must be greater than 6 characters',
+      });
+    }
+  }
+
+  if (req.body.username) {
+    if (req.body.username.length < 4) {
+      res.status(400).json({
+        message: 'username must be greater than 4 characters',
+      });
+    }
+  }
 
   User.create({
     username: req.body.username,
@@ -36,9 +32,9 @@ const signup = (req, res) => {
       status: 'success',
       message: 'account created',
     }))
-    .catch((error) => (
-      res.status(500).json({ message: error.errors[0].message })
-    ));
+    .catch(error => res.status(500).send({
+      message: error.errors[0].message
+    }));
 };
-export default signup;
 
+export default signup;

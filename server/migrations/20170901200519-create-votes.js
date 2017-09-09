@@ -1,5 +1,4 @@
 
-
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Votes', {
     id: {
@@ -19,9 +18,9 @@ module.exports = {
       onDelete: 'CASCADE',
       allowNull: false,
       references: {
-        model: 'Users',
+        model: 'Recipes',
         key: 'id',
-        as: 'user',
+        as: 'recipe',
       },
     },
     createdAt: {

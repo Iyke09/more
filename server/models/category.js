@@ -1,6 +1,6 @@
 //  'use strict';
 module.exports = (sequelize, DataTypes) => {
-  let Category = sequelize.define('Category', {
+  const Category = sequelize.define('Category', {
     userId: DataTypes.INTEGER,
     cart_name: DataTypes.STRING,
     cartId: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     Category.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'users',
-    })
+    });
   };
   return Category;
 };

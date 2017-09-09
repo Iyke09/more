@@ -1,11 +1,12 @@
-import signin from './signin';
+
 import signup from './signup';
+import signin from './signin';
 import userFavorite from './userFavorite';
 
-
 const userController = {
-  signup,
   signin,
-  userFavorite,
+  signup,
+  userFavorite
 };
+
 export default userController;
