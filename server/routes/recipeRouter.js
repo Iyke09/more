@@ -20,7 +20,7 @@ router.post('/', (req, res) => { // -----------------------------create recipe!
   return Recipe.create({
     title: req.body.title,
     category: req.body.category,
-    description: req.body.description
+    description: req.body.description,
     userId: decoded.user.id,
   })
     .then(recipes => res.status(201).send({
